@@ -13,18 +13,11 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <div class="modal-body">
                         <h2>{{ .title }}</h2>
-                        <hr class="star-primary">
-                        <img src="img/portfolio_graphicdesign/{{ .img }}" class="img-responsive img-centered" alt="">
-                        <p>{{ .description | markdownify }}</p>
+                        <img src="{{ .image_name }}" class="img-responsive img-centered" alt="">
+                        <p>{{ .caption | markdownify }}</p>
                         <ul class="list-inline item-details">
-                            <li>{{ with $.Site.Params.portfolio_graphicdesign.modal.client }}{{.}}{{ end }}:
-                                <strong><a href="{{ .clientLink }}">{{ .client }}</a></strong>
-                            </li>
-                            <li>{{ with $.Site.Params.portfolio_graphicdesign.modal.date }}{{.}}{{ end }}:
+                            <li>{{ with $.Site.Params.portfolio_graphicdesign.modal.date }}{{.}}{{ end }}
                                 <strong>{{ .date }}</strong>
-                            </li>
-                            <li>{{ with $.Site.Params.portfolio_graphicdesign.modal.category }}{{.}}{{ end }}:
-                                <strong>{{ .category }}</strong>
                             </li>
                         </ul>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> {{ with $.Site.Params.portfolio.modal.buttontext }}{{.}}{{ end }}</button>
