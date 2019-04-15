@@ -43,43 +43,139 @@
           }).toArray()
         );
 
+
+       
+          
+
         $(uniqueForms).bind("submit", function (e) {
           var $form = $(this);
-          var warningsFound = 0;
-          var $inputs = $form.find("input,textarea,select").not("[type=submit],[type=image]").filter(settings.options.filter);
-          $inputs.trigger("submit.validation").trigger("validationLostFocus.validation");
+          var formID = $(this).attr('id');
 
-          $inputs.each(function (i, el) {
-            var $this = $(el),
-              $controlGroup = $this.parents(".control-group").first();
-            if (
-              $controlGroup.hasClass("warning")
-            ) {
-              $controlGroup.removeClass("warning").addClass("error");
-              warningsFound++;
+          // Submitting the contact form includes reCaptcha check
+          if(formID === "contactForm") {
+            var response = grecaptcha.getResponse();
+            //recaptcha failed validation
+            if(response.length == 0) {
+                e.preventDefault();           
+                $('#recaptcha-error').show();
             }
-          });
+            //recaptcha passed validation
+            else {
+                $('#recaptcha-error').hide();
+            }
+                                                
+            var warningsFound = 0;
+            var $inputs = $form.find("input,textarea,select").not("[type=submit],[type=image]").filter(settings.options.filter);
+            $inputs.trigger("submit.validation").trigger("validationLostFocus.validation");
+  
+            $inputs.each(function (i, el) {
+              var $this = $(el),
+                $controlGroup = $this.parents(".control-group").first();
+              if (
+                $controlGroup.hasClass("warning")
+              ) {
+                $controlGroup.removeClass("warning").addClass("error");
+                warningsFound++;
+              }
+            });
+  
+            $inputs.trigger("validationLostFocus.validation");
+  
+            if (warningsFound) {
+              if (settings.options.preventSubmit) {
+                e.preventDefault();
+              }
+              $form.addClass("error");
+              if ($.isFunction(settings.options.submitError)) {
+                settings.options.submitError($form, e, $inputs.jqBootstrapValidation("collectErrors", true));
+              }
+            } else {
+              $form.removeClass("error");             
 
-          $inputs.trigger("validationLostFocus.validation");
+            }
+          
+            // If no errors, call the AJAX function
+            if (e.isDefaultPrevented()) {
+              return false;
+            } else {
+              
 
-          if (warningsFound) {
-            if (settings.options.preventSubmit) {
-              e.preventDefault();
-            }
-            $form.addClass("error");
-            if ($.isFunction(settings.options.submitError)) {
-              settings.options.submitError($form, e, $inputs.jqBootstrapValidation("collectErrors", true));
-            }
-          } else {
-            $form.removeClass("error");
-            if ($.isFunction(settings.options.submitSuccess)) {
-              settings.options.submitSuccess($form, e);
+            //var formData = getFormData();
+              
+             var payload = {
+                   "name": $("#name").val(),
+                   "email": $("#email").val(),
+                   "subject": "New message from Leslie Carrier website", 
+                   "content": $("#message").val(),
+                   "user": "leslie"
+              };
+
+              jQuery.ajax({
+                type: 'POST',
+                url: 'https://gvt73gxva6.execute-api.us-east-1.amazonaws.com/prod/email',
+                data: JSON.stringify(payload, null, ''),
+                crossDomain: true,
+                dataType: 'json',
+                contentType:"application/json; charset=utf-8",
+                error: function (tmpr, status, exception) {
+                  $("#successMessage").hide();
+                  $("#errorMessage").show();
+                  return false;
+                },                
+              }).done(function (data, statusText, xhr) {
+  
+                $("#contactBtn").prop("disabled",true);
+                $("#successMessage").show();
+                $("#errorMessage").hide();
+
+                return true;
+              });
+              
+              e.preventDefault();             
+              return false;
+            } 
+
+        
+
+          } 
+          else {
+
+            var warningsFound = 0;
+            var $inputs = $form.find("input,textarea,select").not("[type=submit],[type=image]").filter(settings.options.filter);
+            $inputs.trigger("submit.validation").trigger("validationLostFocus.validation");
+
+            $inputs.each(function (i, el) {
+              var $this = $(el),
+                $controlGroup = $this.parents(".control-group").first();
+              if (
+                $controlGroup.hasClass("warning")
+              ) {
+                $controlGroup.removeClass("warning").addClass("error");
+                warningsFound++;
+              }
+            });
+
+            $inputs.trigger("validationLostFocus.validation");
+
+            if (warningsFound) {
+              if (settings.options.preventSubmit) {
+                e.preventDefault();
+              }
+              $form.addClass("error");
+              if ($.isFunction(settings.options.submitError)) {
+                settings.options.submitError($form, e, $inputs.jqBootstrapValidation("collectErrors", true));
+              }
+            } else {
+              $form.removeClass("error");
+              if ($.isFunction(settings.options.submitSuccess)) {
+                settings.options.submitSuccess($form, e);
+              }
             }
           }
         });
 
         return this.each(function(){
-
+      
           // Get references to everything we're interested in
           var $this = $(this),
             $controlGroup = $this.parents(".control-group").first(),
@@ -406,8 +502,9 @@
 
               // Get a list of the errors to apply
               var errorsFound = [];
-
+    
               $.each(validators, function (validatorType, validatorTypeArray) {
+               
                 if (value || value.length || (params && params.includeEmpty) || (!!settings.validatorTypes[validatorType].blockSubmit && params && !!params.submitting)) {
                   $.each(validatorTypeArray, function (i, validator) {
                     if (settings.validatorTypes[validatorType].validate($this, value, validator)) {

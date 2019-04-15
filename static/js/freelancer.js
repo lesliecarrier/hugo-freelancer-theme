@@ -6,6 +6,7 @@
 
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
+    
     $('.page-scroll a').bind('click', function(event) {
         var $anchor = $(this);
         $('html, body').stop().animate({
@@ -13,7 +14,9 @@ $(function() {
         }, 1500, 'easeInOutExpo');
         event.preventDefault();
     });
+ 
 });
+
 
 // Floating label headings for the contact form
 $(function() {
@@ -35,3 +38,31 @@ $('body').scrollspy({
 $('.navbar-collapse ul li a').click(function() {
     $('.navbar-toggle:visible').click();
 });
+
+// Contact form
+function getFormData() {
+    let postData = [];
+  
+    // Grab form data
+    jQuery(jQuery('#contactForm').children()[2].children[0]).find(':input').each((index, data) => {
+      postData.push(data);
+    });
+  
+    // Filter out input used on left side for some reason
+    let result = postData.filter(data => {
+      if (data.type != 'hidden' && data.name != "") return data;
+    });
+  
+    // Build post data
+    payload = result.map(item => {
+      return {
+        // Cleanup key values
+        key: item.name.split('__')[0].split('_').join(' '),
+        value: item.value
+      };
+    });
+  
+  
+    return payload;
+  }
+

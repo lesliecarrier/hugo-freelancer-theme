@@ -29,13 +29,18 @@ a.active {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
     color: #ee4280;
+}
+
+h4.blog_phrase {
+    color: #333333;
+    font-style:italic;
+    text-transform: none;
+    font-weight: normal;
 }
 
 hr.star-light,
@@ -245,7 +250,7 @@ section.success a.active {
     width: 100%;
     height: 100%;
     opacity: 0;
-    background: rgba(24,188,156,.9);
+    background: #ee4281a4;
     -webkit-transition: all ease .5s;
     -moz-transition: all ease .5s;
     transition: all ease .5s;
@@ -335,7 +340,7 @@ section.success a.active {
     font-size: 1.5em;
     background: 0 0;
     box-shadow: none!important;
-    resize: none;
+    resize: none; 
 }
 
 .floating-label-form-group label {
@@ -353,20 +358,23 @@ section.success a.active {
     -moz-transition: top .3s ease,opacity .3s ease;
     -ms-transition: top .3s ease,opacity .3s ease;
     transition: top .3s ease,opacity .3s ease;
+    color: #ee4280;
 }
 
 .floating-label-form-group::not(:first-child) {
     padding-left: 14px;
     border-left: 1px solid #eee;
+    color: #ee4280;
 }
 
 .floating-label-form-group-with-value label {
     top: 0;
     opacity: 1;
+    color: #ee4280;
 }
 
 .floating-label-form-group-with-focus label {
-    color: #f8ee59;
+    color: #ee4280;
 }
 
 form .row:first-child .floating-label-form-group {
@@ -410,6 +418,29 @@ footer .footer-below {
 .btn:active,
 .btn.active {
     outline: 0;
+}
+
+.btn-primary {
+    padding: 5px 10px;
+    float:right;
+    background-color: #ee4280;
+}
+
+.btn-success {
+    padding: 10px 15px;
+    background-color: #ee4280;    
+    border-color: #ee4280;
+    margin-top: 10px;
+}
+
+.btn-success:hover {
+    background-color: #bb2f62;
+    border-color: #bb2f62;
+}
+
+.btn-success:disabled, .btn-primary.btn-newer-posts.disabled, .btn-primary.btn-older-posts.disabled {
+    background-color: #ff85b2;    
+    border-color: #ff85b2;
 }
 
 .scroll-top {
@@ -495,4 +526,101 @@ footer .footer-below {
 .portfolio-modal .modal-backdrop {
     display: none;
     opacity: 0;
+}
+
+
+
+/* Article */
+
+.article-list h2 a {
+    text-decoration: none;
+    /*
+    XXX Maybe but this in? Somethimes it's not smooth and that makes it ugly...
+    transition: color 0.1s linear;
+    */
+}
+
+.article-title {
+    position: relative;
+}
+
+.article-title h1 {
+    font-size: 44px;
+}
+
+.article-title * {
+    text-align: center;
+}
+
+.post-tag a {
+    padding: 0 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    /*
+    XXX Maybe but this in? Somethimes it's not smooth and that makes it ugly...
+    transition: color,border-color,background-color 0.1s linear;
+    */
+}
+
+.not-found h1 {
+    font-weight: 200;
+    font-size: 80px;
+}
+
+.not-found {
+    text-align: center;
+}
+
+.author-info {
+    overflow: auto;
+}
+
+.author-name {
+    margin: 0 0 5px 0;
+}
+
+.author-avatar img {
+    max-width: 100px;
+    max-height: 100px;
+    width: 100px;
+    height: 100px;
+}
+
+.author-contact {
+    margin-top: 10px;
+}
+
+/* Article list */
+
+.li-h1 {
+    margin-bottom: 2px;
+    color: #ee4280;
+    text-align: left;
+}
+
+.li-h1 a {
+    margin-bottom: 2px;
+    color: #ee4280;
+    font-size: 30px;
+    text-align: left;
+}
+
+.li-small {
+    font-size: 70%;
+    margin-top: 3px;
+    margin-bottom: 6px;
+}
+
+.read-more-container {
+    margin-top: 10px;
+}
+
+.text-danger ul {
+    list-style-type: none;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.text-sucess {
+    color: rgb(28, 97, 28);
 }
