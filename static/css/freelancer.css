@@ -130,6 +130,10 @@ header .intro-text .skills {
     header .intro-text .skills {
         font-size: 1.75em;
     }
+
+    .container.blog-post {
+        background: #f8f6e4;
+    }
 }
 
 @media(min-width:768px) {
@@ -627,4 +631,9 @@ footer .footer-below {
 
 h5 {
     text-align: center;
+}
+
+.article-list img {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
